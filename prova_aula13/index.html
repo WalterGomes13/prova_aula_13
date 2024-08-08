@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <h1>Simulador de Caixa Eletrônico</h1>
+        <div id="secao">
+            <select id="opcoes">
+                <option value="saldo">Consultar Saldo</option>
+                <option value="saque">Sacar</option>
+                <option value="deposito">Depositar</option>  
+            </select>
+            <input type="text" name="" id="input">
+        </div>
+        <button id="realizar">Realizar</button>
+    </div>
+    <span id="opText"></span>
+    <script>
+        let saldo = 1000;
+        const input = document.getElementById('input');
+        const secao = document.getElementById('secao');
+        const texto = document.getElementById('opText');
+        const opcoes = document.getElementById('opcoes');
+        const realizar = document.getElementById('realizar');
+
+        function sacar(){
+                if(parseFloat(input.value)>parseFloat(saldo)){
+                    throw 'Saldo Insuficiente!'
+                } else if(input.value==''){
+                    throw 'Digite o valor!'
+                }else{
+                    let novoValor = parseFloat(saldo) - parseFloat(input.value);
+                    texto.innerHTML = `Saque realizado! Seu saldo é de: ${novoValor}`;
+                    saldo = novoValor;
+                }
+            }
+
+        function deposito(){
+                if(input.value==''){
+                    throw 'Digite o valor!'
+                }else{
+                    let novoValor = parseFloat(saldo) + parseFloat(input.value);
+                    texto.innerHTML = `Depósito realizado! Seu saldo é de: ${novoValor}`;
+                    saldo = novoValor;
+                }
+            }
+
+            function realizarF(){
+                    if(opcoes.selectedIndex==0){
+                    texto.innerHTML = `Seu saldo é de: ${saldo}`;
+                    } else if(opcoes.selectedIndex==1){
+                       sacar()
+                    } else if(opcoes.selectedIndex==2){
+                       deposito()
+                   }
+                
+            };
+
+            realizar.addEventListener('click',()=>{
+                try{
+                    realizarF();
+                }catch(erro){
+                    console.error('Ocorreu um erro: ',erro);               
+                }
+            })
+
+    </script>
+</body>
+</html>
